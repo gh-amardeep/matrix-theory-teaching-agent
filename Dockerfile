@@ -24,4 +24,4 @@ WORKDIR /app/backend
 EXPOSE 8000
 
 # Secrets (HF_TOKEN, DATABASE_URL) are NOT baked in; pass them at runtime
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}"]
