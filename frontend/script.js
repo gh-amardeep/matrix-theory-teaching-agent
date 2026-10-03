@@ -23,7 +23,7 @@ let welcome = document.getElementById("welcome");
 // CHAT HISTORY (stored in PostgreSQL, read through FastAPI)
 // ============================================================
 
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = "https://matrix-mentor-backend.onrender.com";
 
 // localStorage is now used ONLY to remember which chat was open,
 // so a page refresh can re-open it. The history itself lives in PostgreSQL.
