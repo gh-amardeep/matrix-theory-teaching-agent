@@ -24,7 +24,10 @@ logger = logging.getLogger("matrix_mentor")
 
 HF_TOKEN = os.getenv("HF_TOKEN")
 
-client = InferenceClient(token=HF_TOKEN)
+client = InferenceClient(
+    provider="auto",
+    api_key=HF_TOKEN
+)
 
 
 # Create the database tables when the application starts.
