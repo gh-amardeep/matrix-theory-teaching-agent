@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Matrix Mentor</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Markdown renderer -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- MathJax configuration -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [
+                    ['\\(', '\\)']
+                ],
+                displayMath: [
+                    ['\\[', '\\]']
+                ]
+            },
+
+            options: {
+                skipHtmlTags: [
+                    'script',
+                    'noscript',
+                    'style',
+                    'textarea',
+                    'pre',
+                    'code'
+                ]
+            }
+        };
+    </script>
+
+    <!-- MathJax -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</head>
+
+
+<body>
+
+    <div class="app">
+
+        <!-- =========================
+             SIDEBAR
+        ========================== -->
+
+        <aside class="sidebar">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    ∑
+                </div>
+
+                <div>
+                    <h1>Matrix</h1>
+                    <span>MENTOR</span>
+                </div>
+
+            </div>
+
+
+            <button class="new-chat" id="newChat">
+                <span>＋</span>
+                New Chat
+            </button>
+
+
+            <div class="sidebar-section" id="chatHistorySection">
+
+                <p class="section-title">
+                    RECENT CHATS
+                </p>
+
+
+               
+            </div>
+
+
+            <div class="sidebar-bottom">
+
+                <div class="course-card">
+
+                    <div class="course-icon">
+                        M
+                    </div>
+
+                    <div>
+                        <strong>Matrix Theory</strong>
+                        <small>M.Tech Level</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =========================
+             MAIN AREA
+        ========================== -->
+
+        <main class="main">
+
+
+            <!-- TOP BAR -->
+
+            <header class="topbar">
+
+                <div class="mobile-menu" id="mobileMenu">
+                    ☰
+                </div>
+
+
+                <div class="page-title">
+
+                    <span class="status-dot"></span>
+
+                    Matrix Theory Teaching Agent
+
+                </div>
+
+
+                <div class="top-actions">
+
+                    <button
+                        title="Theme"
+                        id="themeButton">
+                        ◐
+                    </button>
+
+
+                    <button title="Settings">
+                        ⚙
+                    </button>
+
+                </div>
+
+            </header>
+
+
+            <!-- =========================
+                 CHAT AREA
+            ========================== -->
+
+            <section
+                class="chat-area"
+                id="chatArea">
+
+
+                <!-- WELCOME SCREEN -->
+
+                <div
+                    class="welcome"
+                    id="welcome">
+
+
+                    <div class="welcome-symbol">
+                        ∑
+                    </div>
+
+
+                    <h2>
+                        Welcome to
+                        <span>Matrix Mentor</span>
+                    </h2>
+
+
+                    <p>
+                        Your AI teaching assistant for
+                        learning Matrix Theory step by step.
+                    </p>
+
+
+                    <!-- SUGGESTIONS -->
+
+                    <div class="suggestions">
+
+
+                        <button
+                            class="suggestion"
+                            data-question="Explain vector spaces intuitively.">
+
+
+                            <div class="suggestion-icon">
+                                V
+                            </div>
+
+
+                            <div>
+
+                                <strong>
+                                    Vector Spaces
+                                </strong>
+
+                                <small>
+                                    Learn the fundamental concept
+                                </small>
+
+                            </div>
+
+
+                            <span>
+                                →
+                            </span>
+
+                        </button>
+
+
+
+                        <button
+                            class="suggestion"
+                            data-question="Explain the Rank-Nullity Theorem with a simple example.">
+
+
+                            <div class="suggestion-icon">
+                                R
+                            </div>
+
+
+                            <div>
+
+                                <strong>
+                                    Rank-Nullity Theorem
+                                </strong>
+
+                                <small>
+                                    Understand rank and nullity
+                                </small>
+
+                            </div>
+
+
+                            <span>
+                                →
+                            </span>
+
+                        </button>
+
+
+
+                        <button
+                            class="suggestion"
+                            data-question="What are eigenvalues and eigenvectors? Explain intuitively.">
+
+
+                            <div class="suggestion-icon">
+                                λ
+                            </div>
+
+
+                            <div>
+
+                                <strong>
+                                    Eigenvalues
+                                </strong>
+
+                                <small>
+                                    Build intuition first
+                                </small>
+
+                            </div>
+
+
+                            <span>
+                                →
+                            </span>
+
+                        </button>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 INPUT AREA
+            ========================== -->
+
+            <div class="input-container">
+
+
+                <div class="input-box">
+
+                    <textarea
+                        id="questionInput"
+                        placeholder="Ask anything about Matrix Theory..."
+                        rows="1"></textarea>
+
+
+                    <button
+                        id="sendButton"
+                        class="send-button">
+
+                        ↑
+
+                    </button>
+
+                </div>
+
+
+                <div class="input-info">
+
+                    Matrix Mentor can make mistakes.
+                    Verify important results.
+
+                </div>
+
+            </div>
+
+
+        </main>
+
+    </div>
+
+
+    <!-- JavaScript -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
