@@ -1,436 +1,617 @@
-# Matrix Mentor — AI-Powered Matrix Theory Teaching Agent
+# 🧮 Matrix Mentor
+### AI-Powered Matrix Theory Teaching Agent
 
-## 1. Project Overview
+<p align="center">
+  <b>Learn • Ask • Understand • Practice</b><br>
+  An interactive AI teaching assistant for Matrix Theory
+</p>
 
-Matrix Mentor is an AI-powered Teaching Agent designed to help students learn Matrix Theory through interactive, step-by-step explanations.
+<p align="center">
 
-The system provides a web-based interface where students can ask questions related to Matrix Theory. The question is sent to a FastAPI backend, which combines the student's query with a subject-specific teaching context and sends it to a Large Language Model (LLM) through the Hugging Face Inference API.
+![Python](https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![Hugging Face](https://img.shields.io/badge/Hugging%20Face-LLM-FFD21F?style=for-the-badge&logo=huggingface&logoColor=black)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Render](https://img.shields.io/badge/Render-Deployed-46E3B7?style=for-the-badge&logo=render&logoColor=black)
 
-The generated response is then returned to the frontend and displayed using Markdown and LaTeX formatting.
-
----
-
-## 2. Objectives
-
-The main objectives of this project are:
-
-- To develop an interactive AI-based teaching assistant for Matrix Theory.
-- To provide clear and step-by-step mathematical explanations.
-- To use a subject-specific `.md` context file to guide the teaching behavior of the LLM.
-- To integrate a remotely hosted LLM using Hugging Face.
-- To separate the frontend, backend, context, and LLM components.
-- To provide a simple interface suitable for students learning graduate-level Matrix Theory.
+</p>
 
 ---
 
-## 3. Key Features
+## 🎯 What is Matrix Mentor?
 
-- Interactive chat-based teaching interface.
-- Matrix Theory-focused AI responses.
-- Step-by-step mathematical explanations.
-- Intuitive explanations followed by formal definitions.
-- Mathematical notation using LaTeX.
-- Markdown-formatted responses.
-- Subject-specific teaching context.
-- Remote LLM inference using Hugging Face.
-- Secure API-key configuration using `.env`.
-- FastAPI backend for communication between frontend and LLM.
-- Persistent conversation history stored in PostgreSQL.
-- `GET /history` endpoints to retrieve stored conversations.
-- "Recent Chats" sidebar loaded from PostgreSQL; previous conversations can be re-opened after a browser refresh or a server restart.
-- Responsive web interface.
+**Matrix Mentor** is an AI-powered teaching agent designed specifically for learning **Matrix Theory** through an interactive web interface.
 
----
+Instead of behaving like a generic chatbot, the application uses a dedicated `context.md` file to define the subject scope, teaching philosophy, mathematical rigor, explanation style, formatting rules, and academic-integrity guidance.
 
-## 4. System Architecture
+A student's question travels through the web application, reaches the FastAPI backend, is combined with the Matrix Theory teaching context, and is sent to the remotely hosted `openai/gpt-oss-120b` model through the Hugging Face Inference API.
 
-The system follows the architecture:
-
-Student → Frontend → FastAPI Backend → Context + LLM → Backend → Frontend → Student
-
-With conversation history, the backend also reads from and writes to PostgreSQL:
+### 💡 The idea
 
 ```text
-Student
-   ↓
-Frontend
-   ↓
-FastAPI Backend
-   ├──→ PostgreSQL         (stores and returns history)
-   └──→ Hugging Face LLM   (generates the answer)
-   ↓
-History + AI Answer
-   ↓
-Frontend
+              STUDENT
+                 │
+                 ▼
+        ┌─────────────────┐
+        │  Matrix Mentor  │
+        │   Web Interface │
+        └────────┬────────┘
+                 │
+                 ▼
+        ┌─────────────────┐
+        │ FastAPI Backend  │
+        └───────┬─────────┘
+                │
+        ┌───────┼───────────────┐
+        ▼       ▼               ▼
+   context.md  LLM          PostgreSQL
+   Teaching   Hugging         Chat
+ Instructions   Face         History
+        │       │               │
+        └───────┼───────────────┘
+                ▼
+        ┌─────────────────┐
+        │ Teaching Answer │
+        │ Markdown + LaTeX│
+        └────────┬────────┘
+                 │
+                 ▼
+              STUDENT
 ```
 
-### Components
+---
 
-1. **Frontend**
-   - HTML
-   - CSS
-   - JavaScript
-   - Provides the interactive student interface.
+## ✨ Highlights
 
-2. **Backend**
-   - FastAPI
-   - Receives student questions.
-   - Loads the Matrix Theory context.
-   - Communicates with the LLM.
-
-3. **Context**
-   - `context.md`
-   - Contains Matrix Theory topics, teaching instructions, mathematical guidelines, and response behavior.
-
-4. **LLM**
-   - `openai/gpt-oss-120b`
-   - Accessed remotely through Hugging Face Inference API.
-   - No LLM model is executed locally on the student's machine.
-
-5. **Database**
-   - PostgreSQL, accessed through SQLAlchemy and `psycopg`.
-   - Stores every student question and agent answer.
-
-6. **Configuration**
-   - `.env`
-   - Stores the Hugging Face API token and the database URL securely.
+| 🧠 Teaching | ⚙️ Engineering | ☁️ Deployment |
+|---|---|---|
+| Intuitive explanations | FastAPI REST API | Render |
+| Step-by-step reasoning | PostgreSQL history | Docker |
+| Formal definitions | Modular frontend/backend | Hugging Face |
+| Mathematical examples | Environment-based secrets | Public web access |
+| Markdown + LaTeX | Context-driven prompting | Remote LLM inference |
 
 ---
 
-## 5. Technologies Used
+## 🧑‍🏫 Teaching Capabilities
 
-| Component | Technology |
+Matrix Mentor is designed to support:
+
+- 📖 **Concept explanations**
+- 🧩 **Step-by-step mathematical reasoning**
+- 📐 **Formal definitions**
+- 📝 **Worked examples**
+- 🔢 **Problem-solving guidance**
+- 💭 **Intuitive explanations**
+- 🧮 **Mathematical notation using LaTeX**
+- 📚 **Subject-specific teaching behavior**
+
+### Example question
+
+> **"Explain the Rank-Nullity Theorem with a simple example."**
+
+The agent can structure the response around the theorem, explain rank and nullity, work through a matrix example, show calculations, and present the mathematical expressions using LaTeX.
+
+---
+
+## 🖥️ Application
+
+The frontend provides an interactive chat interface where students can ask Matrix Theory questions and receive formatted mathematical explanations.
+
+> 📸 **Add your Matrix Mentor UI screenshot here**  
+> Recommended location: `docs/screenshots/matrix-mentor.png`
+
+```html
+<!-- After uploading the screenshot, you can enable this: -->
+
+<p align="center">
+  <img src="docs/screenshots/matrix-mentor.png" width="900">
+</p>
+```
+
+---
+
+## 🏗️ System Architecture
+
+```mermaid
+flowchart TB
+
+    U["👨‍🎓 Student"]
+
+    F["🖥️ Public Frontend<br/>HTML + CSS + JavaScript"]
+
+    B["⚡ FastAPI Backend<br/>Uvicorn"]
+
+    C["📚 context.md<br/>Matrix Theory Teaching Instructions"]
+
+    H["🤗 Hugging Face<br/>Inference API"]
+
+    L["🧠 openai/gpt-oss-120b<br/>Remote LLM"]
+
+    D[("🐘 PostgreSQL<br/>Conversation History")]
+
+    R["📝 Markdown + LaTeX<br/>Formatted Response"]
+
+    U --> F
+    F --> B
+
+    B --> C
+    B --> H
+    H --> L
+    L --> H
+    H --> B
+
+    B --> D
+    D --> B
+
+    B --> R
+    R --> F
+    F --> U
+```
+
+### 🔄 Request Flow
+
+```text
+Student Question
+      │
+      ▼
+Web Frontend
+      │
+      ▼
+FastAPI /ask
+      │
+      ├──────────────► context.md
+      │
+      ├──────────────► Hugging Face Inference API
+      │                       │
+      │                       ▼
+      │                 gpt-oss-120b
+      │
+      └──────────────► PostgreSQL
+                              │
+                              ▼
+                       Chat History
+      │
+      ▼
+Markdown + LaTeX Response
+      │
+      ▼
+Student
+```
+
+---
+
+## 🧩 Core Components
+
+### 1. 🎨 Frontend
+
+Built using:
+
+- HTML
+- CSS
+- JavaScript
+- Marked.js
+- MathJax
+
+The frontend provides the interactive Matrix Theory chat experience and renders Markdown and mathematical expressions.
+
+### 2. ⚡ FastAPI Backend
+
+The backend provides the REST API and coordinates:
+
+```text
+Request
+  ↓
+Teaching Context
+  ↓
+LLM Inference
+  ↓
+Database
+  ↓
+Response
+```
+
+### 3. 📚 Context-Based Teaching
+
+`context.md` acts as the subject-specific teaching layer.
+
+It defines:
+
+- Matrix Theory scope
+- Teaching philosophy
+- Mathematical rigor
+- Problem-solving guidance
+- Explanation style
+- Formatting rules
+- Academic-integrity guidance
+
+This allows the same underlying LLM to behave as a **Matrix Theory teaching agent** rather than simply providing generic responses.
+
+### 4. 🧠 Remote LLM
+
+The application uses:
+
+```text
+openai/gpt-oss-120b
+```
+
+through the **Hugging Face Inference API**.
+
+The model is remotely hosted; it is not executed locally by the application.
+
+### 5. 🐘 PostgreSQL
+
+Conversation history is stored using PostgreSQL.
+
+This supports retrieval of recent conversations and individual chat histories.
+
+---
+
+## 🛠️ Technology Stack
+
+| Layer | Technology |
 |---|---|
-| Frontend | HTML, CSS, JavaScript |
-| Backend | FastAPI |
-| Server | Uvicorn |
-| LLM Platform | Hugging Face |
-| LLM | openai/gpt-oss-120b |
-| LLM Client | huggingface_hub |
-| Database | PostgreSQL |
-| ORM / Driver | SQLAlchemy, psycopg |
-| Configuration | python-dotenv |
-| Mathematical Rendering | MathJax |
-| Markdown Rendering | Marked.js |
-| Programming Language | Python |
+| 🎨 Frontend | HTML, CSS, JavaScript |
+| ⚡ Backend | FastAPI + Uvicorn |
+| 🧠 LLM | `openai/gpt-oss-120b` |
+| 🤗 LLM Platform | Hugging Face Inference API |
+| 🔌 LLM Client | `huggingface_hub` |
+| 🐘 Database | PostgreSQL |
+| 🔐 Configuration | `python-dotenv` |
+| 📐 Math Rendering | MathJax |
+| 📝 Markdown | Marked.js |
+| 🐳 Containerization | Docker |
+| ☁️ Deployment | Render |
+| 🐍 Language | Python |
 
 ---
 
-## 6. Project Structure
+## 📁 Project Structure
 
 ```text
 MatrixthheoryAGent/
 │
-├── .env
+├── .env.example
 ├── .gitignore
+├── .dockerignore
+├── Dockerfile
 ├── README.md
 ├── requirements.txt
 ├── context.md
 ├── app.py
-├── .env.example
+├── projectplan.md
 │
 ├── backend/
-│   ├── main.py        # FastAPI app: /ask, /history, /
-│   ├── database.py    # engine, sessions, table creation
-│   ├── models.py      # chats and messages tables
-│   └── crud.py        # database read/write helpers
+│   ├── main.py
+│   ├── crud.py
+│   ├── database.py
+│   └── models.py
 │
-└── frontend/
-    ├── index.html
-    ├── script.js
-    └── style.css
+├── frontend/
+│   ├── index.html
+│   ├── script.js
+│   └── style.css
+│
+└── docs/
+    └── screenshots/
+        └── matrix-mentor.png
+```
+
+> 🔐 `.env` contains secrets and should **never be committed** to GitHub.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Make sure you have:
+
+- Python 3.x
+- pip
+- Git
+- PostgreSQL (for local database use)
+- Docker (optional)
+
+---
+
+### 1️⃣ Clone the repository
+
+```bash
+git clone https://github.com/YOUR_USERNAME/matrix-theory-teaching-agent.git
+cd matrix-theory-teaching-agent
 ```
 
 ---
 
-## 7. Context-Based Teaching
-
-The teaching behavior of Matrix Mentor is defined in:
-
-`context.md`
-
-The FastAPI backend loads this file when the application starts.
-
-The contents of the context file are passed to the LLM as system-level teaching instructions.
-
-This allows the LLM to generate responses according to the defined Matrix Theory teaching methodology.
-
-The context contains:
-
-- Matrix Theory topics
-- Teaching philosophy
-- Mathematical rigor requirements
-- Problem-solving guidelines
-- Explanation style
-- Handling of student doubts
-- Mathematical formatting rules
-- Academic integrity guidelines
-
----
-
-## 8. Installation
-
-### Step 1: Clone or copy the project
-
-Place the project in a suitable directory.
-
-### Step 2: Install PostgreSQL
-
-PostgreSQL 13 or newer is required (see Section 10).
-
-### Step 3: Install Python dependencies
-
-Open a terminal inside the project and run:
+### 2️⃣ Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-On Ubuntu/Linux, Python 3 can also be used:
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ---
 
-## 9. Hugging Face Configuration
+### 3️⃣ Configure the environment
 
 Create a `.env` file in the project root:
 
-```text
+```env
 HF_TOKEN=your_huggingface_token
 ```
 
-The API token must not be written directly inside the Python source code.
+If database configuration is required by the current backend, add the corresponding PostgreSQL environment variables used by the application.
 
-The `.env` file should not be committed to Git.
+### 🔐 Security rule
 
-The project includes `.gitignore` to prevent accidental exposure of the token.
+**Never commit `.env` or a real API token to GitHub.**
 
----
-
-## 10. PostgreSQL Database Setup
-
-PostgreSQL is **required**. Every student question and agent answer is stored in it.
-
-### 10.1 Install and start PostgreSQL (Ubuntu/Linux)
-
-```bash
-sudo apt update
-sudo apt install postgresql postgresql-contrib
-sudo systemctl start postgresql
-sudo systemctl status postgresql
-```
-
-(Alternative using Docker:
-`docker run --name matrix-pg -e POSTGRES_PASSWORD=your_password -p 5432:5432 -d postgres:16`)
-
-### 10.2 Create the database and user (one time only)
-
-```bash
-sudo -u postgres psql
-```
-
-```sql
-CREATE USER matrix_user WITH PASSWORD 'your_password';
-CREATE DATABASE matrix_mentor OWNER matrix_user;
-\q
-```
-
-### 10.3 Configure `DATABASE_URL`
-
-Add this line to the `.env` file in the project root (next to `HF_TOKEN`):
+Use:
 
 ```text
-DATABASE_URL=postgresql+psycopg://matrix_user:your_password@localhost:5432/matrix_mentor
+.env.example
 ```
 
-- Do not put the password in any Python file.
-- If the password contains special characters such as `@` or `/`, URL-encode them (`@` becomes `%40`).
-- `.env` must stay listed in `.gitignore`. `.env.example` shows the expected format.
-
-### 10.4 Tables
-
-The tables are created **automatically** when FastAPI starts. No manual SQL is needed after Step 10.2.
-
-| Table | Columns |
-|---|---|
-| `chats` | `chat_id` (PK), `title`, `created_at`, `updated_at` |
-| `messages` | `message_id` (PK), `chat_id` (FK to `chats`), `role` (`student` or `agent`), `content`, `timestamp` |
-
-If PostgreSQL is not running, the application still starts; `/ask` and `/history` return a clear `503` error, and the details are logged in the FastAPI terminal.
+to document the required variables without exposing secrets.
 
 ---
 
-## 11. API Endpoints
-
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/` | Health check |
-| POST | `/ask` | Send `{"question": "...", "chat_id": "..."}`; returns `{"answer": "...", "chat_id": "..."}`. `chat_id` is optional. Both the question and the answer are stored in PostgreSQL. |
-| GET | `/history` | Stored chats, newest first, with their messages. Optional query parameters: `limit` (default 20, max 100) and `offset`. |
-| GET | `/history/{chat_id}` | The complete conversation for one chat (`404` if it does not exist). |
-
-Interactive API documentation is available at `http://127.0.0.1:8000/docs`.
-
-### Example `GET /history` response
-
-```json
-[
-  {
-    "chat_id": "1727690000000k3j9x2a",
-    "title": "Explain the Rank-Nullity Theorem with a simp...",
-    "created_at": "2026-09-30T06:15:02.114233Z",
-    "updated_at": "2026-09-30T06:15:09.871002Z",
-    "messages": [
-      {
-        "message_id": 1,
-        "role": "student",
-        "content": "Explain the Rank-Nullity Theorem with a simple example.",
-        "timestamp": "2026-09-30T06:15:02.114233Z"
-      },
-      {
-        "message_id": 2,
-        "role": "agent",
-        "content": "## Rank-Nullity Theorem\n\nFor a matrix \\(A\\) with \\(n\\) columns ...",
-        "timestamp": "2026-09-30T06:15:09.871002Z"
-      }
-    ]
-  }
-]
-```
-
----
-
-## 11.1 PostgreSQL-Backed Conversation History
-
-Conversation history is stored in PostgreSQL, so it persists independently of the browser and of the FastAPI process.
-
-**Saving.** When a student asks a question, the frontend sends `question` and its current `chat_id` to `POST /ask`. After the LLM answers, the backend stores the question (role `student`) and the answer (role `agent`) in the `messages` table, linked to a row in `chats`.
-
-**Recent Chats.** When the page loads (and after every answer), the frontend calls `GET /history`, which returns the most recently updated chats first, and lists them under "RECENT CHATS". Nothing in the sidebar is hard-coded, and it is not built from `localStorage`.
-
-**Re-opening a chat.** Clicking a chat calls `GET /history/{chat_id}`, which returns its messages oldest first. The frontend redraws them (Markdown and LaTeX included) in the main chat area.
-
-**New Chat.** The "New Chat" button clears the view. The next question gets a new `chat_id`, so it is stored as a separate conversation. Old conversations are never deleted.
-
-**Browser storage.** The browser keeps only one small value, the id of the chat that was open, so a page refresh can re-open it. The history itself is read from PostgreSQL.
-
-**If PostgreSQL is unavailable.** The API returns a `503` error with a clear message, which the frontend shows (in the sidebar for history, in the chat for questions). An empty history is returned as `[]`.
-
----
-
-## 12. Running the Backend
-
-Make sure PostgreSQL is running (Section 10.1), then open a terminal and navigate to the backend directory:
+## ⚡ Run the Backend Locally
 
 ```bash
 cd backend
-```
-
-Start the FastAPI server:
-
-```bash
 python3 -m uvicorn main:app --reload
 ```
 
-The backend will run at:
-
-`http://127.0.0.1:8000`
-
----
-
-## 13. Running the Frontend
-
-Open:
-
-`frontend/index.html`
-
-in a web browser.
-
-The frontend communicates with the FastAPI backend through the `/ask`, `/history` and `/history/{chat_id}` API endpoints.
-
-When a student submits a question:
+Backend:
 
 ```text
-Student Question
-       ↓
-JavaScript Frontend
-       ↓
-FastAPI /ask endpoint
-       ↓
-context.md
-       ↓
-Hugging Face LLM
-       ↓
-Generated Answer
-       ↓
-FastAPI
-       ↓
-Frontend
+http://127.0.0.1:8000
+```
+
+FastAPI Swagger documentation:
+
+```text
+http://127.0.0.1:8000/docs
 ```
 
 ---
 
-## 14. Example
+## 🖥️ Run the Frontend Locally
 
-### Student Question
+In another terminal:
 
-```text
-Explain the Rank-Nullity Theorem with an example.
+```bash
+cd frontend
+python3 -m http.server 5500
 ```
 
-### Teaching Agent
+Then open:
 
-The agent explains:
-
-- What rank means.
-- What nullity means.
-- The formal Rank-Nullity Theorem.
-- A simple matrix example.
-- The calculation of rank and nullity.
-- Why the theorem works.
-- The final result.
-
-Mathematical expressions are rendered using LaTeX.
+```text
+http://127.0.0.1:5500
+```
 
 ---
 
-## 15. Security
+## 🐳 Docker
 
-The Hugging Face API token is stored in the `.env` file rather than being hard-coded in the source code.
+Build the backend image:
 
-The `.env` file is excluded from version control using:
+```bash
+docker build -t matrix-mentor-backend .
+```
+
+The Docker image contains the backend and `context.md`.
+
+Secrets should be supplied at runtime rather than baked into the image.
+
+---
+
+## ☁️ Deployment Architecture
+
+The deployed system separates the major services:
+
+```text
+                ☁️ CLOUD
+                   │
+       ┌───────────┼────────────┐
+       │           │            │
+       ▼           ▼            ▼
+   Render       Render       Render
+   Frontend     Backend     PostgreSQL
+   Static Site  Web Service   Database
+                   │
+                   ▼
+          Hugging Face API
+                   │
+                   ▼
+          gpt-oss-120b
+```
+
+### Deployment Components
+
+| Service | Role |
+|---|---|
+| Render Static Site | Public frontend |
+| Render Web Service | FastAPI backend |
+| Render PostgreSQL | Conversation history |
+| Hugging Face | Remote LLM inference |
+
+---
+
+## 🌐 Public Backend
+
+**Backend:**
+
+https://matrix-mentor-backend.onrender.com
+
+**API Documentation:**
+
+https://matrix-mentor-backend.onrender.com/docs
+
+> Add the final Render Static Site URL above once the public frontend URL is finalized.
+
+---
+
+## 🔌 API Endpoints
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| `GET` | `/` | Backend health check |
+| `POST` | `/ask` | Send a Matrix Theory question |
+| `GET` | `/history` | Retrieve recent chat history |
+| `GET` | `/history/{chat_id}` | Retrieve a specific conversation |
+
+### Example API Flow
+
+```text
+POST /ask
+    │
+    ▼
+Question + Context
+    │
+    ▼
+Hugging Face Inference
+    │
+    ▼
+Generated Teaching Response
+    │
+    ▼
+Stored in PostgreSQL
+    │
+    ▼
+Returned to Frontend
+```
+
+---
+
+## 🔐 Security
+
+The project follows environment-based credential handling:
+
+- 🔑 API credentials are stored in environment variables.
+- 🚫 Tokens are not hard-coded.
+- 🛡️ Secret environment files are excluded using `.gitignore`.
+- ☁️ The LLM is accessed remotely.
+- 🐳 Docker secrets are supplied at runtime.
+
+### Never commit
 
 ```text
 .env
+API keys
+Hugging Face tokens
+Database passwords
+Private credentials
 ```
 
-in `.gitignore`.
+---
 
-The PostgreSQL connection string (`DATABASE_URL`) is also kept only in `.env`; it is never hard-coded and never sent to the frontend.
+## 🧪 Testing
 
-The LLM is accessed remotely through the Hugging Face service. The model itself is not downloaded or executed on the local machine.
+The deployed frontend was tested by submitting Matrix Theory questions and receiving generated responses.
+
+The backend was also verified through **FastAPI Swagger documentation**.
+
+Example test:
+
+```text
+Question:
+"Explain the Rank-Nullity Theorem with a simple example."
+
+        ↓
+
+FastAPI
+
+        ↓
+
+Matrix Theory Context + LLM
+
+        ↓
+
+Generated Explanation
+
+        ↓
+
+Markdown + LaTeX Rendering
+```
 
 ---
 
-## 16. Future Scope
+## 📈 Future Scope
 
-Possible future improvements include:
-
-- Topic-wise learning modules.
-- Quiz and practice-question generation.
-- Student progress tracking.
-- Retrieval from Matrix Theory lecture notes.
-- Voice-based interaction.
-- Automated evaluation of student solutions.
-- Additional mathematical visualization tools.
+| Feature | Purpose |
+|---|---|
+| 📚 Topic-wise modules | Structured Matrix Theory learning |
+| 🧠 Quiz generation | Active learning and self-testing |
+| 📊 Progress tracking | Monitor student learning |
+| 🔎 Lecture-note retrieval | Ground answers in course material |
+| 🎙️ Voice interaction | Spoken questions and responses |
+| ✅ Solution evaluation | Automated checking of student solutions |
+| 📐 Mathematical visualizations | Visual understanding of matrix concepts |
 
 ---
 
-## 17. Conclusion
+## 🎓 Learning Outcomes
 
-Matrix Mentor demonstrates how a frontend, backend, subject-specific context, and remotely hosted Large Language Model can be integrated to create an AI-powered Teaching Agent.
+This project demonstrates practical experience with:
 
-The project focuses on Matrix Theory and uses a dedicated context file to guide the LLM toward mathematically rigorous, intuitive, and student-friendly explanations.    
+- AI/LLM application development
+- Prompt/context engineering
+- REST API development
+- FastAPI
+- Frontend-backend integration
+- Database-backed applications
+- PostgreSQL
+- Docker
+- Cloud deployment
+- Environment-based secret management
+- Mathematical Markdown and LaTeX rendering
+
+---
+
+## ⭐ Why Matrix Mentor?
+
+```text
+Generic Chatbot
+      │
+      ▼
+     ❌
+Generic responses
+
+Matrix Mentor
+      │
+      ├── Matrix Theory context
+      ├── Teaching instructions
+      ├── Mathematical formatting
+      ├── Step-by-step explanations
+      ├── Conversation history
+      └── Dedicated web interface
+      │
+      ▼
+     🧮
+Domain-focused AI learning experience
+```
+
+---
+
+## 👨‍💻 Author
+
+**AmarDeep Dwivedi**
+
+M.Tech — Communication, Signal Processing and Machine Learning (CSPML)  
+IIT Dharwad
+
+---
+
+## 📜 License
+
+This project is intended for educational and research purposes.
+
+---
+
+<p align="center">
+  <b>🧮 Learn Matrix Theory. Ask Better Questions. Understand the Mathematics.</b>
+</p>
